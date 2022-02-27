@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.css|\.js)$
+RewriteRule ^(.*)$ index.php [L,QSA]
