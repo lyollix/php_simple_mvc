@@ -22,8 +22,8 @@ class Controller_Task extends Controller
         $this->view->render('tasks/show.php', 'template_view.php', $this->get_item($params['id']));
     }
 
-    function new($params) {   
-        $data=[[], ['form'=>[], 'e'=>[]], 'create', $params['is_admin'] ?? 0];
+    function new($params) { 
+        $data=[[], ['form'=>$params['form'] ?? [], 'e'=>$params['e'] ?? []], 'create', $params['is_admin'] ?? 0];
         $this->view->render('tasks/new.php', 'template_view.php', $data);
     }
 
@@ -34,7 +34,7 @@ class Controller_Task extends Controller
                 $this->router->redirect('/');
             }
         } else {
-            $data=['form'=>$params, 'e'=>$e, 'action'=>'create'];
+            $data=['form'=>$params, 'e'=>$e];
             $this->router->redirect('/task/new?'.http_build_query($data));
         }
     }
