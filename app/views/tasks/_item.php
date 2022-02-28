@@ -4,6 +4,9 @@
             <span class="fs-5">#<?=$item["id"];?></span>
             <span class="text-secondary"><?=$item["status"]?'Выполнено':'Не выполнено';?></span>
         </div>
+        <?php if ($item["is_edited_by_admin"]): ?>
+            <span class="badge bg-warning text-dark">Отредактировано администратором</span>
+        <?php endif; ?>
         <div class="d-grid float-end">
             <span class="fs-5"><?=$item["name"];?></span>
             <span class="text-secondary"><?=$item["email"];?></span>

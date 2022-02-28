@@ -33,8 +33,11 @@ class Model_Task extends Model
     }
 
     function update($params) {
-		return $this->db->prepare("update tasks set name=?, email=?, task=?, status=? where id=?")
-            ->execute([$params['name'], $params['email'], $params['task'], $params['status'], $params['id']]);
+        $stmt = $this->db->prepare('select task from tasks where id=?');
+        $stmt->execute([$params['id']]);
+        $task = $stmt->fetch(PDO::FETCH_ASSOC)['task'];
+        return $this->db->prepare("update tasks set name=?, email=?, task=?, status=?, is_edited_by_admin=? where id=?")
+            ->execute([$params['name'], $params['email'], $params['task'], $params['status'], strcmp($params['task'], $task), $params['id']]);
     }
 
     function delete($id) {
