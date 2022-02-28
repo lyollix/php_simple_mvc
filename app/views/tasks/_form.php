@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="form-check">
-                    <input type="checkbox" id="status" name="status" class="form-check-input">
+                    <input type="checkbox" id="status" name="status" <?= $data[1]['form']['status']?'checked ':' ';?>class="form-check-input">
                     <label for="status" class="form-check-label">Статус</label>
                 </div>
             </div>
