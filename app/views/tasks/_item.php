@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="card-body">
-        <p class="card-text"><?=$item["task"];?></p>
+        <div class="card-text"><?=$item["task"];?></div>
         <div class="list-group list-group-horizontal float-end">    
             <a class="list-group-item" href="/task/show/<?=$item['id'];?>">Show</a>
             <?php if ($data[3]): ?>

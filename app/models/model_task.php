@@ -33,11 +33,13 @@ class Model_Task extends Model
     }
 
     function update($params) {
-        $stmt = $this->db->prepare('select task from tasks where id=?');
+        $stmt = $this->db->prepare('select task,is_edited_by_admin as a from tasks where id=?');
         $stmt->execute([$params['id']]);
-        $task = $stmt->fetch(PDO::FETCH_ASSOC)['task'];
+        $r = $stmt->fetch(PDO::FETCH_ASSOC);
+        $task = $r['task'];
+        $a = $r['a'];
         return $this->db->prepare("update tasks set name=?, email=?, task=?, status=?, is_edited_by_admin=? where id=?")
-            ->execute([$params['name'], $params['email'], $params['task'], $params['status'], strcmp($params['task'], $task), $params['id']]);
+            ->execute([$params['name'], $params['email'], $params['task'], $params['status'], $a || strcmp($params['task'], $task), $params['id']]);
     }
 
     function delete($id) {

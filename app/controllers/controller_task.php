@@ -53,6 +53,8 @@ class Controller_Task extends Controller
         if (isset($params['is_admin'])) {
             $e = $this->task_validate($params);
             if ( count($e) == 0) {
+                $params['name'] = strip_tags($params['name']);
+                $params['task'] = htmlspecialchars_decode($params['task']);
                 if ($this->model->update($params)) {
                     $this->router->redirect('/');
                 }
