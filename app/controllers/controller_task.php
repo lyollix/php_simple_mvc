@@ -28,8 +28,10 @@ class Controller_Task extends Controller
     }
 
     function create($params) {
+        $params['name'] = strip_tags($params['name']);
         $e = $this->task_validate($params);
         if ( count($e) == 0) {
+            $params['task'] = htmlspecialchars_decode($params['task']);
             if ($this->model->add($params)) {
                 $this->router->redirect('/');
             }
@@ -51,9 +53,10 @@ class Controller_Task extends Controller
 
     function update($params) {
         if (isset($params['is_admin'])) {
+            $params['name'] = strip_tags($params['name']);
             $e = $this->task_validate($params);
             if ( count($e) == 0) {
-                $params['name'] = strip_tags($params['name']);
+                
                 $params['task'] = htmlspecialchars_decode($params['task']);
                 if ($this->model->update($params)) {
                     $this->router->redirect('/');
