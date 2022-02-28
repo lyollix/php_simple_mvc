@@ -15,7 +15,7 @@ class Controller_Task extends Controller
         $items = $this->model->all($page, $per_page, $order_by);
         $total_pages = ceil($this->model->count() / $per_page);
 
-        $this->view->render('tasks/index.php', 'template_view.php', [$total_pages, $items, $params]);
+        $this->view->render('tasks/index.php', 'template_view.php', [$total_pages, $items, $params, $params['is_admin'] ?? 0]);
     }
 
     function show($params) {   
@@ -40,31 +40,47 @@ class Controller_Task extends Controller
     }
 
     function edit($params) {
-        $item = $this->get_item($params['id']);
-        $data=[[], ['form'=>$item, 'e'=>[]], 'update/'.$params['id'], $params['is_admin'] ?? 0];
-        $this->view->render('tasks/edit.php', 'template_view.php', $data);
+        if (isset($params['is_admin'])) {
+            $item = $this->get_item($params['id']);
+            $data=[[], ['form'=>$item, 'e'=>[]], 'update/'.$params['id'], $params['is_admin'] ?? 0];
+            $this->view->render('tasks/edit.php', 'template_view.php', $data);            
+        } else {
+            $this->router->redirect('/');
+        }
     }
 
     function update($params) {
-        $e = $this->task_validate($params);
-        if ( count($e) == 0) {
-            if ($this->model->update($params)) {
-                $this->router->redirect('/');
+        if (isset($params['is_admin'])) {
+            $e = $this->task_validate($params);
+            if ( count($e) == 0) {
+                if ($this->model->update($params)) {
+                    $this->router->redirect('/');
+                }
+            } else {
+                $this->view->render('tasks/edit.php', 'template_view.php', [$params, $e, 'update/'.$params['id']]);
             }
         } else {
-            $this->view->render('tasks/edit.php', 'template_view.php', [$params, $e, 'update/'.$params['id']]);
-        }        
+            $this->router->redirect('/');
+        }
     }
 
     function delete($params) {
-        $this->view->render('tasks/delete.php', 'template_view.php', $params['id']);
+        if (isset($params['is_admin'])) {
+            $this->view->render('tasks/delete.php', 'template_view.php', $params['id']);
+        } else {
+            $this->router->redirect('/');
+        }
     }
 
     function destroy($params) {
-        if ($this->model->delete($params['id'])) {
-            $this->router->redirect('/');
+        if (isset($params['is_admin'])) {
+            if ($this->model->delete($params['id'])) {
+                $this->router->redirect('/');
+            } else {
+                throw new Exception('Запись #'.$params['id'].' не может быть удалена.');
+            }
         } else {
-            throw new Exception('Запись #'.$params['id'].' не может быть удалена.');
+            $this->router->redirect('/');
         }
     }
 

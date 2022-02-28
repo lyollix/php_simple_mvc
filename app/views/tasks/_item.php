@@ -13,8 +13,10 @@
         <p class="card-text"><?=$item["task"];?></p>
         <div class="list-group list-group-horizontal float-end">    
             <a class="list-group-item" href="/task/show/<?=$item['id'];?>">Show</a>
-            <a class="list-group-item" href="/task/edit/<?=$item['id'];?>">Edit</a>
-            <a class="list-group-item" href="/task/delete/<?=$item['id'];?>">Delete</a>
+            <?php if ($data[3]): ?>
+                <a class="list-group-item" href="/task/edit/<?=$item['id'];?>">Edit</a>
+                <a class="list-group-item" href="/task/delete/<?=$item['id'];?>">Delete</a>
+            <?php endif; ?>
         </div>
     </div>
 </div>

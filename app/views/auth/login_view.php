@@ -10,5 +10,5 @@
     <div id="error"></div>
     
     <button type="submit" class="btn btn-outline-primary">Вход</button>
-    <button class="btn btn-outline-secondary">Отмена</button>
+    <a href="/" class="btn btn-outline-secondary">Отмена</a>
 </form>
