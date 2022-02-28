@@ -1,3 +1,5 @@
+<?php $status = $data[1]['form']['status'] ?? 0 ?>
+
 <form action="/task/<?=$data[2];?>">
     <div class="container px-0">
         <div class="row">
@@ -25,7 +27,7 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="form-check">
-                    <input type="checkbox" id="status" name="status" <?= $data[1]['form']['status']?'checked ':' ';?>class="form-check-input">
+                    <input type="checkbox" id="status" name="status" <?= $status ? 'checked ':' ';?>class="form-check-input">
                     <label for="status" class="form-check-label">Статус</label>
                 </div>
             </div>
